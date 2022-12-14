@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MFramework.Services.FakeData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LearningEFCoreWebAppTodo.Entities
@@ -9,7 +11,27 @@ namespace LearningEFCoreWebAppTodo.Entities
 
         public DatabaseContext()
         {
-            
+            // PM> install-package mframework.services.FakeData
+
+            if (Database.EnsureCreated())
+            {
+                string[] categories = new string[] { "work","business","education","shopping","personal","code" };
+
+                for (int i = 0; i < 100; i++)
+                {
+                    Todo todo = new Todo
+                    {
+                        Category = CollectionData.GetElement(categories),
+                        Completed = BooleanData.GetBoolean(),
+                        CreatedAt = DateTimeData.GetDatetime(DateTime.Now.AddYears(-1),DateTime.Now),
+                        Title = TextData.GetSentence()
+                    };
+
+                    Todos.Add(todo);
+                }
+
+                SaveChanges();
+            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,10 +48,10 @@ namespace LearningEFCoreWebAppTodo.Entities
         [Key]
         public int Id { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string Title { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string Category { get; set; }
 
         public bool Completed { get; set; }

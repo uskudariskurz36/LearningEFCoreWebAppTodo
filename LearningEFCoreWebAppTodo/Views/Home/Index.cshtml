@@ -1,8 +1,45 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using LearningEFCoreWebAppTodo.Entities;
+@model List<Todo>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row mb-3">
+    <div class="col">
+        <h1 class="display-4">Todos</h1>
+        <hr />
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col">
+        <a asp-action="SampleWhereQuery" asp-controller="Home" class="btn btn-primary btn-sm">Where Query</a>
+        <a asp-action="SampleFirstOrDefaultQuery" asp-controller="Home" class="btn btn-primary btn-sm">First or Default</a>
+        <a asp-action="SampleLikeQuery" asp-controller="Home" class="btn btn-primary btn-sm">Like Query</a>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col">
+        <table class="table table-hover table-sm table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Completed</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Todo item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Title</td>
+                        <td>@item.Category</td>
+                        <td>@item.Completed</td>
+                        <td>@item.CreatedAt</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
